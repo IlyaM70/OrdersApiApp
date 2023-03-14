@@ -14,7 +14,7 @@ namespace OrdersApiAppSPD011.Service.ClientService
 
         public async Task<Client> AddAsync(Client client)
         {
-            db.Add(client);
+            db.Clients.Add(client);
             await db.SaveChangesAsync();
             return client;
         }

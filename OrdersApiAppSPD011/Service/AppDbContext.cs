@@ -6,6 +6,7 @@ namespace OrdersApiAppSPD011.Service
     public class AppDbContext : DbContext
     {
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
