@@ -3,7 +3,7 @@ using OrdersApiAppSPD011.Model.Entity;
 
 namespace OrdersApiAppSPD011.Service.ProductService
 {
-    public class DbDaoProduct : IDaoProduct
+    public class DbDaoProduct : IDao<Product>
     {
         private AppDbContext db;
 
