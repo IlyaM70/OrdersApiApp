@@ -1,0 +1,3 @@
+сборка контейнера: docker-compose build
+запуск контейнера: docker-compose up -d
+остановка контейнеров: docker-compose stop

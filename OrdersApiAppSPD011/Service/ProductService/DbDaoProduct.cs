@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OrdersApiAppSPD011.Model;
 using OrdersApiAppSPD011.Model.Entity;
 
 namespace OrdersApiAppSPD011.Service.ProductService

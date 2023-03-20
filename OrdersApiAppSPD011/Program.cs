@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using OrdersApiAppSPD011.Model;
 using OrdersApiAppSPD011.Model.Entity;
 using OrdersApiAppSPD011.Service;
 using OrdersApiAppSPD011.Service.ClientService;
+using OrdersApiAppSPD011.Service.OrderInfoService;
+using OrdersApiAppSPD011.Service.OrderProductService;
 using OrdersApiAppSPD011.Service.OrderService;
 using OrdersApiAppSPD011.Service.ProductService;
 
@@ -15,6 +18,9 @@ builder.Services.AddControllers(options =>
 builder.Services.AddTransient<IDao<Client>, DbDaoClient>();
 builder.Services.AddTransient<IDao<Product>, DbDaoProduct>();
 builder.Services.AddTransient<IDao<Order>, DbDaoOrder>();
+builder.Services.AddTransient<IDao<OrderProduct>, DbDaoOrderProduct>();
+builder.Services.AddTransient<IDaoOrderInfo,DbDaoOrderInfo>();
+
 
 
 var app = builder.Build();

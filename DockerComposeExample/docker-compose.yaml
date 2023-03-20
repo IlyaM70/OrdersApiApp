@@ -1,0 +1,13 @@
+version: "3.9"
+
+# service содержит описание конфигураций контейнеров
+services:
+  db:
+    image: postgres:latest
+    container_name: database
+    environment:
+      POSTGRES_DB: "TestDb"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    ports:
+      - 5432:5432
