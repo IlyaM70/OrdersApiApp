@@ -1,4 +1,5 @@
-﻿using OrdersApiAppSPD011.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using OrdersApiAppSPD011.Model;
 using OrdersApiAppSPD011.Model.Entity;
 
 namespace OrdersApiAppSPD011.Service.OrderInfoService
@@ -16,12 +17,10 @@ namespace OrdersApiAppSPD011.Service.OrderInfoService
         {
             OrderInfo orderInfo = new OrderInfo();
 
-            Order order = db.Orders.FindAsync(id).Result;
-            Client client = db.Clients.FindAsync(order.ClientId).Result;
-            List<OrderProduct> products = db.OrderProduct.Where(x => x.OrderId == id).ToList();
-
+            Order order = await db.Orders.Include(c=>c.Client).FirstOrDefaultAsync(o=>o.Id == id);
+            List<Product> products = await db.OrderProduct.Where(op => op.OrderId == id).Select(c=>c.Product).ToListAsync();
+           
             orderInfo.Order = order;
-            orderInfo.Client = client;
             orderInfo.Products = products;
 
             return orderInfo;

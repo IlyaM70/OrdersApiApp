@@ -4,9 +4,9 @@ namespace OrdersApiAppSPD011.Model
 {
     public class OrderInfo
     {
-        public Client Client { get; set; }
         public Order Order { get; set; }
-        public List<OrderProduct> Products { get; set; }
+        public List<Product> Products { get; set; }
+        public int Quantity { get; set; }
 
     }
 }

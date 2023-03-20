@@ -17,12 +17,19 @@ namespace OrdersApiAppSPD011.Service.OrderProductService
         {
             db.OrderProduct.Add(orderProduct);
             await db.SaveChangesAsync();
+            orderProduct = await db.OrderProduct.Include(o => o.Order)
+               .ThenInclude(c => c.Client)
+               .Include(p => p.Product)
+               .FirstOrDefaultAsync(op=>op.Id == orderProduct.Id);
             return orderProduct;
         }
 
         public async Task<OrderProduct> DeleteAsync(int id)
         {
-            var toDelete = await db.OrderProduct.FindAsync(id);
+            var toDelete = await db.OrderProduct.Include(o => o.Order)
+                .ThenInclude(c => c.Client)
+                .Include(p => p.Product)
+                .FirstOrDefaultAsync(op => op.Id == id);
             if (toDelete != null)
             {
                 db.OrderProduct.Remove(toDelete);
@@ -34,18 +41,28 @@ namespace OrdersApiAppSPD011.Service.OrderProductService
 
         public async Task<List<OrderProduct>> GetAllAsync()
         {
-            return await db.OrderProduct.ToListAsync();
+            return await db.OrderProduct.Include(o=>o.Order)
+                .ThenInclude(c=>c.Client)
+                .Include(p=>p.Product)
+                .ToListAsync();
         }
 
         public async Task<OrderProduct> GetAsync(int id)
         {
-            return await db.OrderProduct.FindAsync(id);
+            return await db.OrderProduct.Include(o => o.Order)
+                .ThenInclude(c => c.Client)
+                .Include(p => p.Product)
+                .FirstOrDefaultAsync(op => op.Id == id);
         }
 
         public async Task<OrderProduct> UpdateAsync(OrderProduct orderProduct)
         {
             db.OrderProduct.Update(orderProduct);
             await db.SaveChangesAsync();
+            orderProduct = await db.OrderProduct.Include(o => o.Order)
+              .ThenInclude(c => c.Client)
+              .Include(p => p.Product)
+              .FirstOrDefaultAsync(op => op.Id == orderProduct.Id);
             return orderProduct;
         }
     }

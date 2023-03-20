@@ -17,12 +17,13 @@ namespace OrdersApiAppSPD011.Service.OrderService
         {
             db.Orders.Add(order);
             await db.SaveChangesAsync();
+            order = await db.Orders.Include(c => c.Client).FirstOrDefaultAsync(o => o.Id == order.Id);
             return order;
         }
 
         public async Task<Order> DeleteAsync(int id)
         {
-            var toDelete = await db.Orders.FindAsync(id);
+            var toDelete = await db.Orders.Include(c => c.Client).FirstOrDefaultAsync(o => o.Id == id);
             if (toDelete != null)
             {
                 db.Orders.Remove(toDelete);
@@ -34,18 +35,19 @@ namespace OrdersApiAppSPD011.Service.OrderService
 
         public async Task<List<Order>> GetAllAsync()
         {
-            return await db.Orders.ToListAsync();
+          return await db.Orders.Include(o=>o.Client).ToListAsync();
         }
 
         public async Task<Order> GetAsync(int id)
         {
-            return await db.Orders.FindAsync(id);
+           return await db.Orders.Include(c=>c.Client).FirstOrDefaultAsync(o=>o.Id==id);
         }
 
         public async Task<Order> UpdateAsync(Order order)
         {
             db.Orders.Update(order);
             await db.SaveChangesAsync();
+            order = await db.Orders.Include(c => c.Client).FirstOrDefaultAsync(o => o.Id == order.Id);
             return order;
         }
     }
