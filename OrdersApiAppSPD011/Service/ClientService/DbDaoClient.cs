@@ -22,14 +22,18 @@ namespace OrdersApiAppSPD011.Service.ClientService
 
         public async Task<Client> DeleteAsync(int id)
         {
-            var toDelete = await db.Clients.FindAsync(id);
-            if (toDelete != null)
-            {
-                db.Clients.Remove(toDelete);
-                await db.SaveChangesAsync();
-                return toDelete;
-            }
-            else return null;
+            var deleteClient = await db.Clients.FindAsync(id);
+            db.Clients.Remove(deleteClient);
+
+            var delRelOrderProduct = await db.OrderProduct.Where(op=>op.Order.ClientId == id).ToListAsync();
+            db.OrderProduct.RemoveRange(delRelOrderProduct);
+
+            var delRelOrders = await db.Orders.Where(o => o.ClientId == id).ToListAsync();
+            db.Orders.RemoveRange(delRelOrders);
+
+            await db.SaveChangesAsync();
+
+            return deleteClient;
         }
 
         public async Task<List<Client>> GetAllAsync()

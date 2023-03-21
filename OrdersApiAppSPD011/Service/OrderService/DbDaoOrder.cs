@@ -23,14 +23,14 @@ namespace OrdersApiAppSPD011.Service.OrderService
 
         public async Task<Order> DeleteAsync(int id)
         {
-            var toDelete = await db.Orders.Include(c => c.Client).FirstOrDefaultAsync(o => o.Id == id);
-            if (toDelete != null)
-            {
-                db.Orders.Remove(toDelete);
-                await db.SaveChangesAsync();
-                return toDelete;
-            }
-            else return null;
+            var delOrder = await db.Orders.Include(c => c.Client).FirstOrDefaultAsync(o => o.Id == id);
+            db.Orders.Remove(delOrder);
+
+            var delRelOrderProduct = await db.OrderProduct.Where(op => op.OrderId == id).ToListAsync();
+            db.OrderProduct.RemoveRange(delRelOrderProduct);
+
+            await db.SaveChangesAsync();
+            return delOrder;
         }
 
         public async Task<List<Order>> GetAllAsync()
