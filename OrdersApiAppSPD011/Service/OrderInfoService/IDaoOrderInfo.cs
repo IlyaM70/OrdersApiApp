@@ -4,6 +4,6 @@ namespace OrdersApiAppSPD011.Service.OrderInfoService
 {
     public interface IDaoOrderInfo
     {
-        Task<OrderInfo> GetAsync(int id);
+        Task<object> GetAsync(int id);
     }
 }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrdersApiAppSPD011.Model;
 using OrdersApiAppSPD011.Model.Entity;
 using OrdersApiAppSPD011.Service;
+using OrdersApiAppSPD011.Service.CheckService;
 using OrdersApiAppSPD011.Service.ClientService;
 using OrdersApiAppSPD011.Service.OrderInfoService;
 using OrdersApiAppSPD011.Service.OrderProductService;
@@ -20,6 +21,7 @@ builder.Services.AddTransient<IDao<Product>, DbDaoProduct>();
 builder.Services.AddTransient<IDao<Order>, DbDaoOrder>();
 builder.Services.AddTransient<IDao<OrderProduct>, DbDaoOrderProduct>();
 builder.Services.AddTransient<IDaoOrderInfo,DbDaoOrderInfo>();
+builder.Services.AddTransient<IDaoCheck,DbDaoCheck>();
 
 
 

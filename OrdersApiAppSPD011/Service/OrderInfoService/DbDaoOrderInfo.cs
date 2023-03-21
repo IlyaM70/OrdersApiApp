@@ -13,17 +13,20 @@ namespace OrdersApiAppSPD011.Service.OrderInfoService
             this.db = db;
         }
 
-        public async Task<OrderInfo> GetAsync(int id)
+        public async Task<object> GetAsync(int id)
         {
-            OrderInfo orderInfo = new OrderInfo();
-
             Order order = await db.Orders.Include(c=>c.Client).FirstOrDefaultAsync(o=>o.Id == id);
-            List<Product> products = await db.OrderProduct.Where(op => op.OrderId == id).Select(c=>c.Product).ToListAsync();
-           
-            orderInfo.Order = order;
-            orderInfo.Products = products;
+            var products = await db.OrderProduct.Where(op => op.OrderId == id)
+                .Select(op => new {op.Product,op.Quantity})
+                .ToListAsync();
 
-            return orderInfo;
+            var OrderInfo = new
+            {
+                Order = order,
+                Products = products
+            };
+            
+            return OrderInfo;
 
         }
     }
